@@ -1,0 +1,114 @@
+﻿@model ML.Libro
+@{
+    ViewBag.Title = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Lista de libros</h2>
+    <p>Aqui puede ver, editar o agrgar un libro</p>
+    <p>Para agregar un libro presione el boton verde</p>
+    <p>Para editar un libro presione el boton azul</p>
+    <p>Para eliminar un libro presione el boton rojo</p>
+
+    <div class="row">
+        <div style="float:right">
+            @Html.ActionLink("+", "Form", "Libro", htmlAttributes: new { @class = "btn btn-success" })
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table table-responsive" id="tbl_libro">
+            <thead>
+                <tr>
+                    <th>
+                        IdLibro
+                    </th>
+                    <th>
+                        Nombre
+                    </th>
+                    <th>
+                        Autor
+                    </th>
+                    <th>
+                        Numero de paginas
+                    </th>
+                    <th>
+                        Fecha de publicacion
+                    </th>
+                    <th>
+                        Editorial
+                    </th>
+                    <th>
+                        Edicion
+                    </th>
+                    <th>
+                        Genero
+                    </th>
+                    <th>
+                        Editar
+                    </th>
+                    <th>
+                        Actualizar
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ML.Libro libro in Model.Libros)
+                {
+                    <tr>
+                        <td>
+                            @libro.IdLibro
+                        </td>
+                        <td>
+                            @libro.Nombre
+                        </td>                       
+                        <td>
+                            @libro.Autor.Nombre
+                        </td>
+                        <td>
+                            @libro.NumeroPaginas
+                        </td>
+                        <td>
+                            @libro.FechaPublicacion
+                        </td>
+                        <td>
+                            @libro.Editorial.Nombre
+                        </td>
+                        <td>
+                            @libro.Edicion
+                        </td>
+                        <td>
+                            @libro.Genero.Nombre
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-primary glyphicon glyphicon-edit" href="@Url.Action("Form", "Libro", new { IdLibro = libro.IdLibro })"></a>
+                        </td>
+                        <td class="text-center">
+                            <a class="btn btn-danger glyphicon glyphicon-trash" href="@Url.Action("Delete", "Libro", new { IdLibro = libro.IdLibro })" onclick="return confirm('Estas seguro que deseas eliminar este registro?');"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts
+{
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.material.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tbl_libro').DataTable({
+                "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json",
+                },
+            });
+        });
+    </script>
+}
